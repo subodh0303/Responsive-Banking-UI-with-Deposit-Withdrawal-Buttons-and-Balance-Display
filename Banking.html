@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Banking UI</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #fff;
+      --accent: #2b6cb0;
+      --danger: #d90429;
+      --radius: 12px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .bank-container {
+      background: var(--card);
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      text-align: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .balance {
+      background: #edf2f7;
+      padding: 15px;
+      border-radius: var(--radius);
+      text-align: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    input[type="number"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      font-size: 1rem;
+    }
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: var(--radius);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .deposit {
+      background: var(--accent);
+    }
+    .withdraw {
+      background: var(--danger);
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    @media (max-width: 500px) {
+      .bank-container {
+        padding: 15px;
+      }
+      .balance {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bank-container">
+    <h1>Bank Account</h1>
+    <div class="balance">Balance: $<span id="balance">0.00</span></div>
+    <div class="actions">
+      <input type="number" id="amount" placeholder="Enter amount" min="0" />
+      <button class="deposit" onclick="deposit()">Deposit</button>
+      <button class="withdraw" onclick="withdraw()">Withdraw</button>
+    </div>
+  </div>
+
+  <script>
+    let balance = 0;
+    const balanceDisplay = document.getElementById('balance');
+    const amountInput = document.getElementById('amount');
+
+    function deposit() {
+      const amount = parseFloat(amountInput.value);
+      if (!isNaN(amount) && amount > 0) {
+        balance += amount;
+        updateBalance();
+      } else {
+        alert('Please enter a valid amount to deposit.');
+      }
+      amountInput.value = '';
+    }
+
+    function withdraw() {
+      const amount = parseFloat(amountInput.value);
+      if (!isNaN(amount) && amount > 0) {
+        if (amount <= balance) {
+          balance -= amount;
+          updateBalance();
+        } else {
+          alert('Insufficient balance.');
+        }
+      } else {
+        alert('Please enter a valid amount to withdraw.');
+      }
+      amountInput.value = '';
+    }
+
+    function updateBalance() {
+      balanceDisplay.textContent = balance.toFixed(2);
+    }
+  </script>
+
+</body>
+</html>
